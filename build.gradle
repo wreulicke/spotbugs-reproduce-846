@@ -1,0 +1,41 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.8"
+  }
+}
+
+apply plugin: "java"
+apply plugin: "com.github.spotbugs"
+
+apply from: "${rootProject.projectDir}/gradle/spotbugs.gradle"
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+
+
+dependencies {
+  // This dependency is found on compile classpath of this component and consumers.
+  compile 'com.google.guava:guava:23.0'
+
+  // Use JUnit test framework
+  testCompile 'junit:junit:4.12'
+  spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1"
+}
+
+// In this section you declare where to find the dependencies of your project
+repositories {
+  // Use jcenter for resolving your dependencies.
+  // You can declare any Maven/Ivy/file repository here.
+  jcenter()
+}

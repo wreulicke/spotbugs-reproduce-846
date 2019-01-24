@@ -1,0 +1,6 @@
+
+spotbugs {
+  effort = "max"
+}
+
+spotbugsMain.excludeFilter = rootProject.file("gradle/spotbugs/excludeFilter.xml")

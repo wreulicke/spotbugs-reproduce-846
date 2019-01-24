@@ -1,0 +1,25 @@
+version: 2
+jobs:
+  build:
+    working_directory: /app
+    docker:
+      - image: classmethod/openjdk-with-git:11-jdk
+    environment:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
+      TERM: dumb
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - dependencies-{{ .Branch }}-{{ checksum ".circleci/config.yml" }}
+            - dependencies-{{ .Branch }}
+            - dependencies-develop
+            - dependencies-master
+      - run:
+          name: Show version
+          command: ./gradlew -v
+      - run:
+          name: Run tests
+          command: ./gradlew check
+
+
